@@ -5,6 +5,7 @@ import com.imooc.security.core.validate.code.ValidateCode;
 import com.imooc.security.core.validate.code.ValidateCodeGenerator;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
-    @Setter
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
+
+    @Autowired
+    public SmsCodeGenerator(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
 
     @Override
     public ValidateCode generate(HttpServletRequest request) {

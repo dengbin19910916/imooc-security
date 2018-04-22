@@ -2,7 +2,9 @@ package com.imooc.security.browser;
 
 import com.imooc.security.browser.authentication.ImoocAuthenticationFailureHandler;
 import com.imooc.security.browser.authentication.ImoocAuthenticationSuccessHandler;
+import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.validate.code.SmsCodeFilter;
 import com.imooc.security.core.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,18 +33,21 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SecurityProperties securityProperties;
     private final DataSource dataSource;
     private final UserDetailsService userDetailsService;
+    private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Autowired
     public BrowserSecurityConfig(ImoocAuthenticationSuccessHandler imoocAuthenticationSuccessHandler,
                                  ImoocAuthenticationFailureHandler imoocAuthenticationFailureHandler,
                                  SecurityProperties securityProperties,
                                  DataSource dataSource,
-                                 @Qualifier("myUserDetailsService") UserDetailsService userDetailsService) {
+                                 @Qualifier("myUserDetailsService") UserDetailsService userDetailsService,
+                                 SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
         this.imoocAuthenticationSuccessHandler = imoocAuthenticationSuccessHandler;
         this.imoocAuthenticationFailureHandler = imoocAuthenticationFailureHandler;
         this.securityProperties = securityProperties;
         this.dataSource = dataSource;
         this.userDetailsService = userDetailsService;
+        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
     }
 
     // @formatter:off
@@ -53,26 +58,34 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                    .loginPage("/authentication/require")
-                    .loginProcessingUrl("/authentication/form")
-                    .successHandler(imoocAuthenticationSuccessHandler)
-                    .failureHandler(imoocAuthenticationFailureHandler)
-                .and()
-                .rememberMe()
-                    .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-                    .userDetailsService(userDetailsService)
-                .and()
-                .authorizeRequests()
-                    .antMatchers("/authentication/require",
-                        securityProperties.getBrowser().getLoginPage(),
-                        "/code/*",
-                        "/v2/api-docs", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**")
-                    .permitAll()
-                    .anyRequest().authenticated()
-                .and().csrf().disable();
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setAuthenticationFailureHandler(imoocAuthenticationFailureHandler);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
+
+        http
+            .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+            .formLogin()
+                .loginPage("/authentication/require")
+                .loginProcessingUrl("/authentication/form")
+                .successHandler(imoocAuthenticationSuccessHandler)
+                .failureHandler(imoocAuthenticationFailureHandler)
+            .and()
+            .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
+            .and()
+            .authorizeRequests()
+                .antMatchers("/authentication/require",
+                    securityProperties.getBrowser().getLoginPage(),
+                    "/code/*",
+                    "/v2/api-docs", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**")
+                .permitAll()
+                .anyRequest().authenticated()
+            .and().csrf().disable()
+            .apply(smsCodeAuthenticationSecurityConfig);
     }
     // @formatter:on
 
