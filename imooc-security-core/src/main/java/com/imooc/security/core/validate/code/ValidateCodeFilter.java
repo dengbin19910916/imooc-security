@@ -105,7 +105,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
      */
     private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
         ValidateCodeType type = null;
-        if (StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
+        if (StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
             Set<String> urls = urlMap.keySet();
             for (String url : urls) {
                 if (pathMatcher.match(url, request.getRequestURI())) {

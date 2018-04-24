@@ -1,7 +1,7 @@
 package com.imooc.security.browser;
 
 import com.imooc.security.core.authentication.AbstractChannelSecurityConfig;
-import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.imooc.security.core.authentication.mobile.SmsCodeSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,32 +17,50 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import javax.sql.DataSource;
 
-import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE;
-import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_UNAUTHENTICATION_URL;
-import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX;
+import static com.imooc.security.core.properties.SecurityConstants.*;
 
 /**
+ * 浏览器权限配置。
+ *
  * @author DENGBIN
  * @since 2018-4-15
  */
 @Configuration
 public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    /**
+     * 安全配置属性。
+     */
+    private final SecurityProperties securityProperties;
+    /**
+     * 数据源。
+     */
+    private final DataSource dataSource;
+    /**
+     * 用户详情服务。
+     */
+    private final UserDetailsService userDetailsService;
+    /**
+     * 验证码安全配置。
+     */
+    private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    /**
+     * 短信验证码安全配置。
+     */
+    private final SmsCodeSecurityConfig smsCodeSecurityConfig;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    @Qualifier("myUserDetailsService")
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
-
-    @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    public BrowserSecurityConfig(SecurityProperties securityProperties,
+                                 @Qualifier("myUserDetailsService") UserDetailsService userDetailsService,
+                                 ValidateCodeSecurityConfig validateCodeSecurityConfig,
+                                 SmsCodeSecurityConfig smsCodeSecurityConfig,
+                                 DataSource dataSource) {
+        this.securityProperties = securityProperties;
+        this.userDetailsService = userDetailsService;
+        this.validateCodeSecurityConfig = validateCodeSecurityConfig;
+        this.smsCodeSecurityConfig = smsCodeSecurityConfig;
+        this.dataSource = dataSource;
+    }
 
     // @formatter:off
     @Override
@@ -51,7 +69,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
         http.apply(validateCodeSecurityConfig)
                 .and()
-            .apply(smsCodeAuthenticationSecurityConfig)
+            .apply(smsCodeSecurityConfig)
                 .and()
             .rememberMe()
                 .tokenRepository(persistentTokenRepository())

@@ -13,20 +13,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /**
+ * 短信验证码安全配置。
+ *
  * @author DENGBIN
  * @since 2018-4-22
  */
 @Component
-public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class SmsCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+
+    /**
+     * 认证成功处理器。
+     */
+    private final AuthenticationSuccessHandler imoocAuthenticationSuccessHandler;
+    /**
+     * 认证失败处理器。
+     */
+    private final AuthenticationFailureHandler imoocAuthenticationFailureHandler;
+    /**
+     * 用户明细服务。
+     */
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    private AuthenticationSuccessHandler imoocAuthenticationSuccessHandler;
-    @Autowired
-    private AuthenticationFailureHandler imoocAuthenticationFailureHandler;
-    @Autowired
-    @Qualifier("myUserDetailsService")
-    private UserDetailsService userDetailsService;
+    public SmsCodeSecurityConfig(AuthenticationSuccessHandler imoocAuthenticationSuccessHandler, AuthenticationFailureHandler imoocAuthenticationFailureHandler, @Qualifier("myUserDetailsService") UserDetailsService userDetailsService) {
+        this.imoocAuthenticationSuccessHandler = imoocAuthenticationSuccessHandler;
+        this.imoocAuthenticationFailureHandler = imoocAuthenticationFailureHandler;
+        this.userDetailsService = userDetailsService;
+    }
 
+    // @formatter:off
     @Override
     public void configure(HttpSecurity http) {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
@@ -37,6 +52,8 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
 
-        http.authenticationProvider(smsCodeAuthenticationProvider).addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.authenticationProvider(smsCodeAuthenticationProvider)
+            .addFilterBefore(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
+    // @formatter:on
 }
