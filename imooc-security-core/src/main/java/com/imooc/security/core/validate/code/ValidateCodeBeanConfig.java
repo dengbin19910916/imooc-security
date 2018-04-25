@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 验证码条件配置。
+ *
  * @author DENGBIN
  * @since 2018-4-18
  */

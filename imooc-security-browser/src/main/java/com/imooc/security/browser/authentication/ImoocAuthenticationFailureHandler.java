@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 验证失败处理器。
+ *
  * @author DENGBIN
  * @since 2018-4-16
  */

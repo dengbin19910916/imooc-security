@@ -1,6 +1,8 @@
 package com.imooc.security.core.properties;
 
 /**
+ * 安全配置常量。
+ *
  * @author DENGBIN
  * @since 2018-4-19
  */

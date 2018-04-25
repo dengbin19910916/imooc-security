@@ -7,6 +7,8 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import java.util.Collection;
 
 /**
+ * 短信验证码权限Token。
+ *
  * @author DENGBIN
  * @since 2018-4-22
  */
@@ -39,7 +41,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
      * producing a trusted (i.e. {@link #isAuthenticated()} = <code>true</code>)
      * authentication token.
      *
-     * @param mobile   username
+     * @param mobile      username
      * @param authorities authorities
      */
     public SmsCodeAuthenticationToken(Object mobile, Collection<? extends GrantedAuthority> authorities) {

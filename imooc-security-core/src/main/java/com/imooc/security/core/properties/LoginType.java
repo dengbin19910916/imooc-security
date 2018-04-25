@@ -15,7 +15,7 @@ public enum LoginType {
     REDIRECT,
 
     /**
-     * 登录后，返回登录成功或失败的信息，使用JSON格式。
+     * 登录后，使用JSON格式返回登录成功或失败的信息。
      */
     JSON
 }

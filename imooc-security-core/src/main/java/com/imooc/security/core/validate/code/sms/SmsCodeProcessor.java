@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 短信验证码处理器。
+ *
  * @author DENGBIN
  * @since 2018-4-20
  */

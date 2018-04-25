@@ -15,7 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_UNAUTHENTICATION_URL;
+
 /**
+ * 浏览器安全配置控制器。
+ *
  * @author DENGBIN
  * @since 2018-4-17
  */
@@ -41,7 +45,7 @@ public class BrowserSecurityController {
      * @param response 响应对象
      * @return 响应信息
      */
-    @RequestMapping("/authentication/require")
+    @RequestMapping(DEFAULT_UNAUTHENTICATION_URL)
     public String requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 

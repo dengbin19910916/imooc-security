@@ -9,14 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX;
+
 /**
+ * 验证码创建控制器。
+ *
  * @author DENGBIN
  * @since 2018-4-12
  */
 @RestController
 public class ValidateCodeController {
-
-    static final String SESSION_KEY = "SESSION_KEY_FOR_CODE_image";
 
     private final Map<String, ValidateCodeProcessor> validateCodeProcessors;
 
@@ -25,7 +27,7 @@ public class ValidateCodeController {
         this.validateCodeProcessors = validateCodeProcessors;
     }
 
-    @GetMapping("/code/{type}")
+    @GetMapping(DEFAULT_VALIDATE_CODE_URL_PREFIX + "/{type}")
     public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type) throws Exception {
         validateCodeProcessors.get(type + "CodeProcessor").create(request, response);
     }

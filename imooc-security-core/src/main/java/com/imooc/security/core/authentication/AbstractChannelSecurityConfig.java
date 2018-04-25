@@ -10,6 +10,8 @@ import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_LOGIN
 import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_UNAUTHENTICATION_URL;
 
 /**
+ * 权限用户密码登录配置。
+ *
  * @author DENGBIN
  * @since 2018-4-22
  */

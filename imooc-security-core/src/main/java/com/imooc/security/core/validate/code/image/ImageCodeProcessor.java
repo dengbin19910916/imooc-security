@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 图形验证码处理器。
  * @author DENGBIN
  * @since 2018-4-20
  */

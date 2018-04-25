@@ -7,6 +7,8 @@ import lombok.ToString;
 import java.awt.image.BufferedImage;
 
 /**
+ * 图片验证码。
+ *
  * @author DENGBIN
  * @since 2018-4-12
  */

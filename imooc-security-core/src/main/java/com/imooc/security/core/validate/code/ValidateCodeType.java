@@ -3,6 +3,8 @@ package com.imooc.security.core.validate.code;
 import com.imooc.security.core.properties.SecurityConstants;
 
 /**
+ * 验证码类型。
+ *
  * @author DENGBIN
  * @since 2018-4-19
  */

@@ -10,6 +10,8 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE;
+
 /**
  * @author DENGBIN
  * @since 2018-4-22
@@ -27,7 +29,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     // ===================================================================================================
 
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+        super(new AntPathRequestMatcher(DEFAULT_LOGIN_PROCESSING_URL_MOBILE, "POST"));
     }
 
     // ~ Methods

@@ -1,6 +1,8 @@
 package com.imooc.security.core.validate.code.sms;
 
 /**
+ * 默认的短信验证码发送器。
+ *
  * @author DENGBIN
  * @since 2018-4-19
  */

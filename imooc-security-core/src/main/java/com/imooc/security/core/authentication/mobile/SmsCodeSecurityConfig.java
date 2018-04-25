@@ -35,7 +35,7 @@ public class SmsCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecu
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SmsCodeSecurityConfig(AuthenticationSuccessHandler imoocAuthenticationSuccessHandler, AuthenticationFailureHandler imoocAuthenticationFailureHandler, @Qualifier("myUserDetailsService") UserDetailsService userDetailsService) {
+    public SmsCodeSecurityConfig(AuthenticationSuccessHandler imoocAuthenticationSuccessHandler, AuthenticationFailureHandler imoocAuthenticationFailureHandler, UserDetailsService userDetailsService) {
         this.imoocAuthenticationSuccessHandler = imoocAuthenticationSuccessHandler;
         this.imoocAuthenticationFailureHandler = imoocAuthenticationFailureHandler;
         this.userDetailsService = userDetailsService;

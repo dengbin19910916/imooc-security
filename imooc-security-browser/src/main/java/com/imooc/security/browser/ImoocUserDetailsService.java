@@ -10,12 +10,15 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 /**
+ * 自定义用户明细服务。
+ *
  * @author DENGBIN
+ * @see UserDetailsService
  * @since 2018-4-15
  */
 @Slf4j
 @Component
-public class MyUserDetailsService implements UserDetailsService {
+public class ImoocUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

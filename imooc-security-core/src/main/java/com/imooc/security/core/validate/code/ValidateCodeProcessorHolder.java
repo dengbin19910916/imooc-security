@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * 系统中的校验码处理器。
+ * 系统中的校验码处理器帮助。
  *
  * @author DENGBIN
  * @since 2018-4-22
@@ -15,8 +15,12 @@ import java.util.Map;
 @Component
 public class ValidateCodeProcessorHolder {
 
+    private final Map<String, ValidateCodeProcessor> validateCodeProcessors;
+
     @Autowired
-    private Map<String, ValidateCodeProcessor> validateCodeProcessors;
+    public ValidateCodeProcessorHolder(Map<String, ValidateCodeProcessor> validateCodeProcessors) {
+        this.validateCodeProcessors = validateCodeProcessors;
+    }
 
     /**
      * 查找系统中的校验码处理器。

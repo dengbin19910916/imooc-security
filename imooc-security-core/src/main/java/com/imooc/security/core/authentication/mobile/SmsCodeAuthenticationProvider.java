@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
+ * 短信验证码权限提供者。
+ *
  * @author DENGBIN
  * @since 2018-4-22
  */

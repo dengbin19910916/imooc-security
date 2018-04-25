@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.Filter;
 
 /**
+ * 验证码权限配置。
+ *
  * @author DENGBIN
  * @since 2018-4-22
  */

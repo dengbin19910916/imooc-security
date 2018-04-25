@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+
 /**
  * Imooc security properties.
  *
@@ -27,7 +29,7 @@ public class SecurityProperties {
     @Data
     public class BrowserProperties {
 
-        private String loginPage = "/imooc-signIn.html";
+        private String loginPage = DEFAULT_LOGIN_PAGE_URL;
 
         private LoginType loginType = LoginType.JSON;
 

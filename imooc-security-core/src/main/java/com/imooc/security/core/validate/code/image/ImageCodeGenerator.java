@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
+ * 图形验证码生成器。
+ *
  * @author DENGBIN
  * @since 2018-4-18
  */

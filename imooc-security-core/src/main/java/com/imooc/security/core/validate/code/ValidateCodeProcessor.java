@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 实现验证码接口提供自定义的验证码处理方式。
+ *
  * @author DENGBIN
  * @since 2018-4-19
  */

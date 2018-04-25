@@ -25,6 +25,8 @@ import static com.imooc.security.core.validate.code.ValidateCodeType.IMAGE;
 import static com.imooc.security.core.validate.code.ValidateCodeType.SMS;
 
 /**
+ * 验证码处理过滤器。
+ *
  * @author DENGBIN
  * @since 2018-4-13
  */
@@ -32,14 +34,9 @@ import static com.imooc.security.core.validate.code.ValidateCodeType.SMS;
 @Component
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
-
-    @Autowired
-    private SecurityProperties securityProperties;
-
-    @Autowired
-    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final SecurityProperties securityProperties;
+    private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
     /**
      * 存放所有需要校验验证码的url。
@@ -50,6 +47,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
      * 验证请求url与配置的url是否匹配的工具类。
      */
     private AntPathMatcher pathMatcher = new AntPathMatcher();
+
+    @Autowired
+    public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.securityProperties = securityProperties;
+        this.validateCodeProcessorHolder = validateCodeProcessorHolder;
+    }
 
     /**
      * 初始化要拦截的url配置信息。

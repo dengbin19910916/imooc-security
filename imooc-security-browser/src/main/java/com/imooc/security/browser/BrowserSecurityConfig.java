@@ -5,7 +5,6 @@ import com.imooc.security.core.authentication.mobile.SmsCodeSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,7 +19,7 @@ import javax.sql.DataSource;
 import static com.imooc.security.core.properties.SecurityConstants.*;
 
 /**
- * 浏览器权限配置。
+ * 浏览器安全配置。
  *
  * @author DENGBIN
  * @since 2018-4-15
@@ -51,7 +50,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     public BrowserSecurityConfig(SecurityProperties securityProperties,
-                                 @Qualifier("myUserDetailsService") UserDetailsService userDetailsService,
+                                 UserDetailsService userDetailsService,
                                  ValidateCodeSecurityConfig validateCodeSecurityConfig,
                                  SmsCodeSecurityConfig smsCodeSecurityConfig,
                                  DataSource dataSource) {

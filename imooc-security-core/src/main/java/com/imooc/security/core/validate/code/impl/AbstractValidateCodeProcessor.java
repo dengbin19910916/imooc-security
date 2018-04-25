@@ -10,7 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+import static com.imooc.security.core.properties.SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX;
+
 /**
+ * 验证码抽象处理器。
+ * 子类需要实现发送验证码的方法。
+ *
  * @author DENGBIN
  * @since 2018-4-19
  */
@@ -68,14 +73,14 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @return 校验码的类型
      */
     private String getProcessorType(HttpServletRequest request) {
-        return StringUtils.substringAfter(request.getRequestURI(), "/code/");
+        return StringUtils.substringAfter(request.getRequestURI(), DEFAULT_VALIDATE_CODE_URL_PREFIX + "/");
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void validate(HttpServletRequest request) {
-        ValidateCodeType processorType = getValidateCodeType(request);
-        String sessionKey = getSessionKey(request);
+        ValidateCodeType processorType = getValidateCodeType();
+        String sessionKey = getSessionKey();
 
         C codeInSession = (C) request.getSession().getAttribute(sessionKey);
 
@@ -109,10 +114,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     /**
      * 根据请求的url获取校验码的类型。
      *
-     * @param request 请求对象
      * @return 验证码类型
      */
-    private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
+    private ValidateCodeType getValidateCodeType() {
         String type = StringUtils.substringBefore(getClass().getSimpleName(), "CodeProcessor");
         return ValidateCodeType.valueOf(type.toUpperCase());
     }
@@ -120,10 +124,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     /**
      * 返回验证码放入session时的key。
      *
-     * @param request 请求对象
      * @return SESSION KEY
      */
-    private String getSessionKey(HttpServletRequest request) {
-        return SESSION_KEY_PREFIX + getValidateCodeType(request).toString().toUpperCase();
+    private String getSessionKey() {
+        return SESSION_KEY_PREFIX + getValidateCodeType().toString().toUpperCase();
     }
 }
