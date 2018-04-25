@@ -10,6 +10,8 @@ server:
 info:
   version: @imooc.security.version@
 
+---
+# 权限自定义配置
 imooc:
   security:
     browser:
@@ -20,6 +22,8 @@ imooc:
         width: 35
         length: 2
         url: /user/*
+      sms:
+        expire-in: 30
 ---
 spring:
   profiles: dev
