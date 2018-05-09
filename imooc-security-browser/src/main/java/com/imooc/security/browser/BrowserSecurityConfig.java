@@ -98,7 +98,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
-        tokenRepository.setCreateTableOnStartup(false);
+        tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
     }
 }

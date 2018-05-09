@@ -28,8 +28,23 @@ imooc:
 spring:
   profiles: dev
   datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jackson:
+    serialization:
+      indent_output: true
+---
+spring:
+  profiles: qa
+  datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/imooc?useSSL=false
+    url: jdbc:mysql://localhost:3306/imooc?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
     username: root
     password: root
   jpa:
