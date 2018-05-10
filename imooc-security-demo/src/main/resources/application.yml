@@ -15,7 +15,7 @@ info:
 imooc:
   security:
     browser:
-      login-type: JSON
+      login-type: REDIRECT
 #      login-page: /demo-signIn.html
     code:
       image:
@@ -25,6 +25,7 @@ imooc:
       sms:
         expire-in: 30
 ---
+# 开发环境
 spring:
   profiles: dev
   datasource:
@@ -40,6 +41,7 @@ spring:
     serialization:
       indent_output: true
 ---
+# 测试环境
 spring:
   profiles: qa
   datasource:
